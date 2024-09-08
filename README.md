@@ -19,24 +19,32 @@ self-hosted use, prioritizing simplicity and ease of maintenance.
 - PyYAML
 - anthropic (Claude AI API)
 
+
 ## Installation
 
 1. Clone the repository:
    ```
    git clone https://github.com/cthulahoops/mail2ical.git
-   cd email-to-ical-service
+   cd mail2ical
    ```
 
-2. Install the required packages:
+2. Install poetry if you haven't already:
    ```
-   pip install aiosmtpd PyYAML anthropic
+   curl -sSL https://install.python-poetry.org | python3 -
    ```
 
-3. Copy the example configuration file and edit it to your needs:
+3. Install the project dependencies using poetry:
+   ```
+   poetry install
+   ```
+
+4. Copy the example configuration file and edit it to your needs:
    ```
    cp config.example.yaml config.yaml
    nano config.yaml
    ```
+
+Note: Full installation instructions for setting up on a server with a webserver are a work in progress. This guide covers the basic setup for local development and testing.
 
 ## Configuration
 
