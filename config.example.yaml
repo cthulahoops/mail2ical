@@ -1,0 +1,36 @@
+# Email to iCal Conversion Service Configuration
+
+# SMTP Server Settings
+smtp:
+  host: "0.0.0.0"
+  port: 8025
+  use_tls: false  # Set to true when TLS is implemented
+  allowed_ips:
+    - "127.0.0.1"
+    - "192.168.1.0/24"
+
+# Email Settings
+email:
+  allowed_senders:
+    - "newsletter@example.com"
+    - "events@company.org"
+
+# iCal Generation
+ical:
+  default_timezone: "UTC"
+  file_base: "./calendars"
+  url_base: "https://your-domain.com/calendars/"
+
+# AI Parser Settings (Claude API)
+ai_parser:
+  api_key: "your_claude_api_key_here"
+  model: "claude-3.5-sonnet-20240620"
+
+# Calendar Mappings
+calendars:
+  - name: "Work Events"
+    email_address: "work-events-secret123@your-domain.com"
+  - name: "Personal Events"
+    email_address: "personal-events-secret456@your-domain.com"
+  - name: "Family Calendar"
+    email_address: "family-calendar-secret789@your-domain.com"
