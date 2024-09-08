@@ -1,31 +1,25 @@
-import os
-from anthropic import Anthropic
+import argparse
+import sys
+from mail2ical_converter import generate_ical_from_email
 
-# Setup Anthropic client
-anthropic = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+def main(input_file, output_file=None):
+    with open(input_file, 'r') as email_file:
+        email_content = email_file.read()
 
-# Read email file
-with open('sample_email.txt', 'r') as email_file:
-    email_content = email_file.read()
+    ical_content = generate_ical_from_email(email_content)
 
-# Parse with Claude and generate iCal
-response = anthropic.messages.create(
-    model="claude-3-5-sonnet-20240620",
-    max_tokens=1000,
-    messages=[
-        {
-            "role": "user",
-            "content": f"""Extract event details from this email and generate a valid iCal (.ics) file content:
+    if output_file:
+        with open(output_file, 'w') as f:
+            f.write(ical_content)
+        print(f"iCal file generated: {output_file}")
+    else:
+        sys.stdout.write(ical_content)
 
-{email_content}
 
-Provide only the iCal file content, nothing else. Ensure it's a complete, valid iCal file."""
-        }
-    ]
-)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Convert email content to iCal file')
+    parser.add_argument('input_file', help='Input email file')
+    parser.add_argument('-o', '--output', help='Output iCal file')
+    args = parser.parse_args()
 
-# Save iCal file
-with open('output.ics', 'w') as f:
-    f.write(response.content[0].text)
-
-print("iCal file generated: output.ics")
+    main(args.input_file, args.output)
