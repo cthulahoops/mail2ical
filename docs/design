@@ -1,0 +1,82 @@
+Design Document: Email to iCal Conversion Service
+
+1. Overview
+This service receives email newsletters, extracts event information, and generates iCal files accessible via HTTP. It's designed for small-scale, self-hosted use, prioritizing simplicity and ease of maintenance.
+
+2. Architecture Components
+
+2.1 Email Reception
+- Technology: SMTP server using aiosmtpd (Python)
+- Initial implementation: Non-TLS for simplicity
+- Security: IP whitelisting, sender email verification
+- Trade-off: Simplicity vs. encryption (plan to add TLS later)
+
+2.2 Email Parsing
+- Technology: Claude-3.5-sonnet AI
+- Function: Extract event details (time, location, description)
+- Trade-off: Advanced parsing capabilities vs. potential API costs
+
+2.3 iCal Generation
+- Technology: Python iCal library (e.g., icalendar)
+- Function: Create iCal files from parsed event data
+
+2.4 File Storage
+- Method: Local file system
+- Consideration: Persistent storage, no expiration
+
+2.5 Web Serving
+- Technology: Caddy
+- Features: Automatic HTTPS with Let's Encrypt
+- Trade-off: Ease of HTTPS setup vs. potential limitations in customization
+
+2.6 Configuration
+- Method: Single config file (YAML or JSON)
+- Content: Calendar settings, allowed email addresses, mappings
+
+3. Security Considerations
+- Unique, hard-to-guess UUIDs for email addresses and iCal URLs
+- Strict sender email verification
+- Future: TLS for SMTP (planned upgrade)
+
+4. Deployment
+- Platform: Existing Disco server
+- Storage: Utilize supported volumes for calendar files
+
+5. Testing
+- Framework: pytest
+- Focus: Email parsing accuracy, iCal generation correctness
+
+6. Trade-offs and Decisions
+
+6.1 SMTP without TLS
+- Pro: Simpler initial setup
+- Con: Less secure transmission
+- Decision: Start without TLS, design for easy future upgrade
+
+6.2 AI-based Parsing
+- Pro: Advanced, flexible event extraction
+- Con: Potential API costs, dependency on external service
+- Decision: Leverage AI for better parsing, monitor usage
+
+6.3 Self-hosted vs. Cloud
+- Pro: Full control, data privacy
+- Con: Maintenance responsibility
+- Decision: Self-host for privacy and control
+
+6.4 Caddy for Web Serving
+- Pro: Automatic HTTPS, easy setup
+- Con: Less customization than alternatives
+- Decision: Use Caddy for simplicity and built-in HTTPS
+
+6.5 Single Config File
+- Pro: Easy to manage for small scale
+- Con: Might be limiting for larger deployments
+- Decision: Adequate for current needs, reassess if scaling
+
+7. Future Considerations
+- Implement TLS for SMTP
+- Develop a basic monitoring and alerting system
+- Create a simple admin interface for configuration management
+- Evaluate need for database integration if scaling occurs
+
+This design prioritizes simplicity, security, and ease of maintenance for a small-scale, self-hosted service. It allows for future enhancements while meeting immediate needs efficiently.
