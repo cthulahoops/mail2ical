@@ -1,5 +1,12 @@
 # Email to iCal Conversion Service
 
+This is a proof of concept experiment. After building this I found an ical
+link for the calendar I wanted to convert, so I've never deployed this. I
+still think the idea is good, and I can imagine using this again. This was
+built in about two hours using claude-3.5-sonnet (and other LLM tools) so
+it wasn't a big use of time to prototype. (It makes this look much more
+finished than it is!)
+
 This service receives email newsletters, extracts event information, and
 generates iCal files accessible via HTTP. It's designed for small-scale,
 self-hosted use, prioritizing simplicity and ease of maintenance.
